@@ -36,8 +36,9 @@ program.command("get-persons")
   )
   .option("-s, --save", "Store the data in the local file system.")
   .option("-l, --local", "Read the data from the local file system")
-  .action(() => {
-    console.log("options", program.opts(), "these are the options");
+  .action((programOptions) => {
+    console.log("options", programOptions, "these are the options");
+    ora('Loading unicorns').start();
   });
 
 program.parse(process.argv);
