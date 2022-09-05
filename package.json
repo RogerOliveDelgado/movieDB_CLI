@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/RogerOliveDelgado/movieDB_CLI#readme",
   "dependencies": {
-    "commander": "^9.4.0"
-  }
+    "commander": "^9.4.0",
+    "dotenv": "^16.0.2",
+    "ora": "^6.1.2"
+  },
+  "type": "module"
 }

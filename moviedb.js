@@ -1,44 +1,24 @@
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 const { Command } = require("commander");
+const dotenv = require("dotenv");
+
+import ora from 'ora'
+
 const program = new Command();
 
-program.option("--first").option("-s, --separator <char>");
-
-program.parse();
-
-const options = program.opts();
-const limit = options.first ? 1 : undefined;
-
-console.log("----------OPTIONS-------");
-console.log(options);
-console.log("--------OPTIONS FORMATTED-------");
-console.log(program.args[0].split(options.separator, limit));
+//Env configuration
+dotenv.config();
 
 /**
  * HELP
  */
 
+//Command Settings
 program
   .name("movieDB CLI")
-  .description("CLI to obtain info from movieDB API")
+  .description("CLI to obtain information from movieDB API")
   .version("0.0.1");
-
-program
-  .command("get-persons")
-  .description("Get persons from movieDB API")
-  .option("--popular", "Display the most popular persons");
-
-program.parse();
-
-
-const { Command } = require("commander");
-const program = new Command();
-const dotenv = require("dotenv");
-const ora = require("ora");
-
-dotenv.config();
-
-//Command settings
-program.name("moviedb").description("CLI to MovieDB").version("0.0.1");
 
 //Set help setting
 program.configureHelp({
@@ -47,8 +27,7 @@ program.configureHelp({
 });
 
 //Get persons command
-program
-  .name("get-persons")
+program.command("get-persons")
   .description("Make a network request to fetch the most popular persons")
   .requiredOption("-p, --popular", "Fetch the popular persons")
   .requiredOption(
@@ -58,7 +37,7 @@ program
   .option("-s, --save", "Store the data in the local file system.")
   .option("-l, --local", "Read the data from the local file system")
   .action(() => {
-    console.log("options", program.opts());
+    console.log("options", program.opts(), "these are the options");
   });
 
 program.parse(process.argv);
