@@ -38,7 +38,7 @@
             URL: https://api.themoviedb.org/3/person/popular?page=1 (dynamic)
             Module: https.request()
             Module info: https://nodejs.org/api/https.html#https_https_request_options_callback
-            Example: 
+            Example:
                 command: ./moviedb.js get-persons --page 2 --popular
                 URL: https://api.themoviedb.org/3/person/popular?page=2
         --> Errors
@@ -56,9 +56,9 @@
             Method: ora.succed()
             Functionality: Stop spinner
             Message: Popular persons data loaded
-    
+
     --> PERSON DETAILS
-        
+
         -help
         -options
             > --id
@@ -81,7 +81,7 @@
             Message: Person data loaded
 
     --> MOVIES
-        
+
         -help
         -options
             > --pages
@@ -96,13 +96,13 @@
                 Required: no
                 Description: "Fetch the popular movies"
                 URL: See api documentation
-            
+
             > --now-playing
                 Shorthand: -n
                 Required: no
                 Description: "Fetch the movies that are paying now"
                 URL: See api documentation
-        
+
             > --popular --now-playing indicated separately. If neither the popular or now playing are indicated, it should search on to the default movies endpoint
 
         --> Terminal spinner
@@ -118,12 +118,12 @@
                 Requirements: Page 19
                 Example: Page 20
         --> Success
-            Message: 
+            Message:
                 - Popular movies data loaded
                 - Movies playing now data loaded
 
-    --> SINGLE MOVIE DETAILS 
-        
+    --> SINGLE MOVIE DETAILS
+
         -help
         -options
             > --id
@@ -149,7 +149,7 @@
             --> Movie data
                 Requirements: Page 24-25
                 Example: Page 25
-            --> Reviews data 
+            --> Reviews data
                 Requirements: Page 26-27
                 Example: 27
         --> Success
@@ -170,7 +170,7 @@
                     now-playing-movies.json
             - Messages:
                 Success & Error Statements
-            - Notifications: 
+            - Notifications:
                 Npm Package: node-notifier
                 Method: notifier.notify()
 
@@ -180,6 +180,6 @@
             - Messages & Notifications:
                 - Non existing file:
                 - Existing file:
-            - Notifications: 
+            - Notifications:
                 Npm Package: node-notifier
                 Method: notifier.notify()
