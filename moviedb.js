@@ -1,9 +1,10 @@
-import { createRequire } from 'module';
+import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const { Command } = require("commander");
 const dotenv = require("dotenv");
 
-import ora from 'ora'
+import ora from "ora";
+import chalk from "chalk"
 
 const program = new Command();
 
@@ -27,7 +28,8 @@ program.configureHelp({
 });
 
 //Get persons command
-program.command("get-persons")
+program
+  .command("get-persons")
   .description("Make a network request to fetch the most popular persons")
   .requiredOption("-p, --popular", "Fetch the popular persons")
   .requiredOption(
@@ -36,8 +38,16 @@ program.command("get-persons")
   )
   .option("-s, --save", "Store the data in the local file system.")
   .option("-l, --local", "Read the data from the local file system")
-  .action(() => {
-    console.log("options", program.opts(), "these are the options");
+  .action((options) => {
+    const spinner = ora(`Fetching the ${chalk.red(`popular person's`)} data...`).start();
+    //   const spinner = ora("Loading unicorns").start();
+    setTimeout(() => {
+      spinner.color = "yellow";
+      spinner.text = "Loading rainbows";
+      spinner.succeed("Exit")
+    //   spinner.stop()
+    }, 2000);
+    // console.log(options);
   });
 
 program.parse(process.argv);
