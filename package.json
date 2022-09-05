@@ -1,0 +1,22 @@
+{
+  "name": "moviedb_cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "moviedb.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RogerOliveDelgado/movieDB_CLI.git"
+  },
+  "author": "Roger Olive Delgado & Alicia Cembranos Bruzon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RogerOliveDelgado/movieDB_CLI/issues"
+  },
+  "homepage": "https://github.com/RogerOliveDelgado/movieDB_CLI#readme",
+  "dependencies": {
+    "commander": "^9.4.0"
+  }
+}
