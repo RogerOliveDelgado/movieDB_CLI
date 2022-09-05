@@ -5,26 +5,38 @@ const dotenv = require("dotenv");
 //Env configuration
 dotenv.config();
 
-const page  = 1
-const path = `/3/person/popular?page=${page}&api_key=${process.env.API_KEY}`
 
-const options = {
-  hostname: 'api.themoviedb.org',
-  port: 443,
-  path: path,
-  method: 'GET',
-};
+export function getPersons(options, commandOptions){
 
-const req = https.request(options, (res) => {
-  console.log('statusCode:', res.statusCode);
-  console.log('headers:', res.headers);
+  let responseData = ''
+  const {popular, page, save, local} = commandOptions
 
-  res.on('data', (d) => {
-    process.stdout.write(d);
+  const req = https.request(options, (res) => {
+    console.log('statusCode:', res.statusCode);
+    // console.log('headers:', res.headers);
+  
+    res.on('data', (chunk) => {
+      responseData += chunk
+    });
+
+    res.on('end', ()=> {
+      // save local 
+      if(save){
+        console.log("Save file")
+      }
+      else if(local){
+        console.log("Get info from file")
+      }
+      else {
+        console.log("Print on the command promt")
+      }
+      console.log(JSON.parse(responseData))
+    })
+
   });
-});
-
-req.on('error', (e) => {
-  console.error(e);
-});
-req.end();
+  
+  req.on('error', (e) => {
+    console.error(e);
+  });
+  req.end();
+}

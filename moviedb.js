@@ -1,13 +1,10 @@
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const { Command } = require("commander");
-const dotenv = require("dotenv");
-
+import {Command} from 'commander'
 import ora from "ora";
-import chalk from "chalk"
+import dotenv from 'dotenv'
 
-const program = new Command();
+import { getPersons } from "./services/get-persons.js";
 
+const program = new (Command);
 //Env configuration
 dotenv.config();
 
@@ -15,7 +12,7 @@ dotenv.config();
  * HELP
  */
 
-//Command Settings
+// Settings
 program
   .name("movieDB CLI")
   .description("CLI to obtain information from movieDB API")
@@ -38,16 +35,30 @@ program
   )
   .option("-s, --save", "Store the data in the local file system.")
   .option("-l, --local", "Read the data from the local file system")
-  .action((options) => {
-    const spinner = ora(`Fetching the ${chalk.red(`popular person's`)} data...`).start();
+  .action((commandOptions) => {
+    const spinner = ora(
+      `Fetching the ${chalk.red(`popular person's`)} data...`
+    ).start();
     //   const spinner = ora("Loading unicorns").start();
     setTimeout(() => {
       spinner.color = "yellow";
       spinner.text = "Loading rainbows";
-      spinner.succeed("Exit")
-    //   spinner.stop()
+      spinner.succeed("Exit");
+      //   spinner.stop()
     }, 2000);
     // console.log(options);
+
+    const page = 1;
+    const path = `/3/person/popular?page=${page}&api_key=${process.env.API_KEY}`;
+
+    const createRequestOptions = {
+      hostname: "api.themoviedb.org",
+      port: 443,
+      path: path,
+      method: "GET",
+    };
+
+    getPersons(createRequestOptions, commandOptions);
   });
 
 program.parse(process.argv);
