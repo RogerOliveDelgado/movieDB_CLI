@@ -6,7 +6,7 @@ import {
 } from "../utils/spinnersHandler.js";
 
 import { createRequire } from "node:module";
-import {render} from '../ts/renderPopularPersons.js'
+import {render} from '../render/renderPopularPersons.js'
 
 const require = createRequire(import.meta.url);
 

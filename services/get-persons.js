@@ -6,7 +6,7 @@ import {
   spinnerHandlerOnSuccess,
   spinnerHandlerOnError,
 } from "../utils/spinnersHandler.js";
-import { render } from "../ts/renderPopularPersons.js";
+import { render } from "./../render/renderPopularPersons.js";
 import { getRequestOptions } from "./getRequestOptions.js";
 import { savePersonFile } from "./fsPersonMethods.js";
 
