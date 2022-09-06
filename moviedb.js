@@ -8,6 +8,7 @@ import { getPerson } from "./services/get-person.js";
 import { createSpinner } from "./utils/spinnersHandler.js";
 import { readPersonFile } from "./services/fsPersonMethods.js";
 import { moviedbRequest } from "./services/moviedbRequest.js";
+import { renderPersonDetails } from "./render/renderPersonDetails.js";
 
 const program = new Command();
 //Env configuration
@@ -109,8 +110,8 @@ program
       if (commandOptions.local) {
         readPersonFile_id(`Persons/SinglePersons/SinglePerson_id=${commandOptions.id}.json`, spinner)
       }
-      const response = await moviedbRequest('', commandOptions, '')
-      console.log('Thats the API response: ', response)
+      const response = await moviedbRequest('singlePerson', commandOptions)
+      renderPersonDetails(response)
       // getPerson(path, commandOptions, spinner);
       spinner.stop();
     }, 2000);

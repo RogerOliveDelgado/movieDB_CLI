@@ -13,26 +13,25 @@ import { savePersonFile } from "./fsPersonMethods.js";
 //Env configuration
 dotenv.config();
 
-export async function moviedbRequest(command, commandOptions, spinner) {
-  const requestOptions = getRequestOptions("singlePerson", commandOptions.id);
+export async function moviedbRequest(command, commandOptions) {
+  const requestOptions = getRequestOptions(command, commandOptions.id);
   let responseData = "";
 
-  const req = https.request(requestOptions, (res) => {
-    res.on("data", (chunk) => {
-      responseData += chunk;
+  return new Promise(function (resolve, reject) {
+    const req = https.request(requestOptions, (res) => {
+      res.on("data", (chunk) => {
+        responseData += chunk;
+      });
+
+      res.on("end", () => {
+        resolve(responseData)
+      });
     });
 
-    const response = res.on("end", () => {
-      return responseData;
+    req.on("error", (err) => {
+      reject("Todo todo ha ido mal")
     });
 
+    req.end();
   });
-
-  req.on("error", (err) => {
-    return "Todo todo a ido mal";
-  });
-
-  req.end();
-  console.log(Object.keys(req))
-  console.log(req.outputData.callback)
 }
