@@ -5,9 +5,10 @@ import {
   spinnerHandlerOnError,
 } from "../utils/spinnersHandler.js";
 
+
 export const savePersonFile = (filename, data, spinner) => {
   const BASENAME = path.resolve("files");
-  const FILE_PATH = path.join(BASENAME, "hhdhd",filename);
+  const FILE_PATH = path.join(BASENAME, filename);
 
   fs.writeFile(
     FILE_PATH,
@@ -21,7 +22,8 @@ export const savePersonFile = (filename, data, spinner) => {
       spinnerHandlerOnSuccess(
         spinner,
         "File was successfully stored in the local system."
-      );
+        );
+        notifier.notify("Exito")
     }
   );
 };
