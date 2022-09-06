@@ -1,6 +1,6 @@
 import { PopularPersonsResponse, KnownFor } from "../interfaces/PopularPersons";
 import { Person } from "../interfaces/PopularPersons";
-import { chalkSettings } from "./settings";
+import { chalkSettings } from "../render/settings";
 
 const { white, bold, yellow, blue, magenta, breakLine, tab } = chalkSettings;
 const log = console.log;
