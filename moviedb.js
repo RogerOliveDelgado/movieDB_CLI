@@ -2,8 +2,12 @@ import { Command } from "commander";
 import dotenv from "dotenv";
 import { getPersons } from "./services/get-persons.js";
 import { getMovies } from "./services/get-movies.js";
-import { createSpinner } from "./utils/spinnersHandler.js";
+import { createSpinner } from "./utils/spinners/spinnersHandler.js";
 import { readMoviesFile, readPersonFile } from "./services/fsPersonMethods.js";
+import { getPerson } from "./services/get-person.js";
+import { createSpinner } from "./utils/spinnersHandler.js";
+import { readPersonFile } from "./services/fsPersonMethods.js";
+import { moviedbRequest } from "./services/moviedbRequest.js";
 
 const program = new Command();
 //Env configuration
@@ -87,6 +91,27 @@ program
       } else {
         getMovies(path, commandOptions, spinner);
       }
+    })
+  });
+    
+program
+  .command("get-person")
+  .description("Make a network to fetch the data of a single person")
+  .requiredOption("-i, --id <number>", "Fetch the person with ID")
+  .action((commandOptions) => {
+    const spinner = createSpinner(
+      `Fetching the person's data with id=${commandOptions.id} ...`
+    );
+
+    const path = `/3/person/${commandOptions.id}`;
+
+    setTimeout(async () => {
+      if (commandOptions.local) {
+        readPersonFile_id(`Persons/SinglePersons/SinglePerson_id=${commandOptions.id}.json`, spinner)
+      }
+      const response = await moviedbRequest('', commandOptions, '')
+      console.log('Thats the API response: ', response)
+      // getPerson(path, commandOptions, spinner);
       spinner.stop();
     }, 2000);
   });

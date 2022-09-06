@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 import {
   spinnerHandlerOnSuccess,
   spinnerHandlerOnError,
-} from "../utils/spinnersHandler.js";
+} from "../utils/spinners/spinnersHandler.js";
 import { renderMovies } from "../render/renderPopularMovies.js";
 import { getRequestOptions } from "./getRequestOptions.js";
 import { savePersonFile } from "./fsPersonMethods.js";

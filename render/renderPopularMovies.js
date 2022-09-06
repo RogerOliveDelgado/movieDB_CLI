@@ -1,4 +1,4 @@
-import { chalkSettings } from "./settings.js";
+import { chalkSettings } from "../utils/renders/settings.js";
 
 const { white, bold, yellow, blue, magenta, breakLine, tab } = chalkSettings;
 const log = console.log;
@@ -24,8 +24,7 @@ export function renderMovies({ page, results, total_pages }) {
       ----------------------------------------
         ${breakLine}
         Page: ${page} of ${total_pages}
-        ${breakLine}`
-      )
+        ${breakLine}`)
     );
   }
 }
