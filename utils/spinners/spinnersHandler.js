@@ -2,14 +2,10 @@ import ora from "ora";
 
 /**
  * It takes in a color, a type, and a message, and returns a spinner with those properties.
- * @param spinnerColor - The color of the spinner.
- * @param spinnerType - The type of spinner you want to use.
  * @param spinnerMessage - The spinner message.
- * @returns A function that returns an object.
+ * @returns The spinner
  */
-export const createSpinner = (
-  spinnerMessage
-) => {
+export const createSpinner = (spinnerMessage) => {
   return ora({
     text: spinnerMessage,
   }).start();

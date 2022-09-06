@@ -6,6 +6,7 @@ export const chalkSettings = {
   blue: chalk.blue,
   yellow: chalk.yellow,
   magenta: chalk.magenta,
+  gray: chalk.gray,
   breakLine: "\n",
   tab: "\t",
 };

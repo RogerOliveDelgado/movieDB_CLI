@@ -1,14 +1,10 @@
 import { Command } from "commander";
 import dotenv from "dotenv";
-import { getPersons } from "./services/get-persons.js";
-import { getMovies } from "./services/get-movies.js";
 import { createSpinner } from "./utils/spinners/spinnersHandler.js";
 import { readMoviesFile, readPersonFile } from "./services/fsPersonMethods.js";
-import { getPerson } from "./services/get-person.js";
 import { createSpinner } from "./utils/spinnersHandler.js";
 import { readPersonFile } from "./services/fsPersonMethods.js";
 import { moviedbRequest } from "./services/moviedbRequest.js";
-import { renderPersonDetails } from "./render/renderPersonDetails.js";
 
 const program = new Command();
 //Env configuration

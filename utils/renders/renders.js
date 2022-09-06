@@ -1,14 +1,23 @@
 import { chalkSettings } from "./settings.js";
 
 //Main settings
-const { white, bold, yellow, blue, magenta, breakLine, tab } = chalkSettings;
+const { white, bold, yellow, blue, magenta, gray, breakLine, tab } =
+  chalkSettings;
 const log = console.log;
+
+//Object for rendering messages
+const renderMessages = {
+  also_known_as: "Also known as:",
+  noAlias: "doesn’t have any alternate names",
+  genre: "Genre:",
+  noGenre: "The movie doesn’t have a declared genre",
+  language: "Language:",
+  noLanguage: "doesn’t have any declared languages",
+};
 
 /**
  * It takes two arguments, a page number and a total number of pages, and renders a page number and
  * total number of pages to the console.
- * @param page - The current page number
- * @param total_pages - The total number of pages in the search results.
  */
 export function renderPages(page, total_pages) {
   log(
@@ -17,6 +26,22 @@ export function renderPages(page, total_pages) {
           Page: ${page} of ${total_pages}
           ${breakLine}`)
   );
+}
+
+/**
+ * It takes an array, a name, and a message. If the array has items, it logs the name and the items. If
+ * the array is empty, it logs the message
+ */
+export function arrayRender(arrayToRender, name, message) {
+  if (arrayToRender.length > 0) {
+    log(white(`${name}`));
+    arrayToRender.map((item) => {
+      log(`${white(item)}${breakLine}`);
+    });
+    return;
+  }
+
+  log(`${yellow(message)}${breakLine}`);
 }
 
 /**
@@ -34,7 +59,7 @@ export function renderPersonsData({ page, results, total_pages }) {
               Title: ${bold(blue(name))}
               ${
                 known_for_department === "Acting" &&
-                `Department: ${magenta(name)}`
+                `Department: ${magenta(known_for_department)}`
               }`)
     );
 
@@ -43,7 +68,7 @@ export function renderPersonsData({ page, results, total_pages }) {
       return movie.title !== undefined;
     });
 
-    //render if appears in movies
+    //render if person appears in movies
     if (appearInMovie) {
       known_for.map(({ id, title, release_date }) => {
         log(white(`Appearing in movies:${breakLine}`));
@@ -90,4 +115,77 @@ export function renderMoviesData({ page, results, total_pages }) {
   if (total_pages > page) {
     renderPages(page, total_pages);
   }
+}
+
+/**
+ * It renders a person's data to the console
+ */
+export function renderPersonData({
+  id,
+  name,
+  birthday,
+  place_of_birth,
+  known_for_department,
+  biography,
+  also_known_as,
+}) {
+  log(
+    white(`
+        ----------------------------------------
+        ${breakLine}
+        Person:
+        ${breakLine}
+        ID: ${id}
+        Name: ${bold(blue(name))}
+        Birthday: ${birthday} ${gray("|")} ${place_of_birth}
+        ${
+          known_for_department === "Acting" &&
+          `Department: ${magenta(known_for_department)}`
+        }
+        Biography: ${bold(biography)}
+        `)
+  );
+
+  arrayRender(
+    also_known_as,
+    renderMessages.also_known_as,
+    `${name}${renderMessages.noAlias}`
+  );
+}
+
+/**
+ * It renders a movie's data to the console
+ */
+export function renderMovieData({
+  id,
+  title,
+  release_date,
+  runtime,
+  vote_count,
+  overview,
+  genres,
+  spoken_languages,
+}) {
+  log(
+    white(`
+        ----------------------------------------
+        ${breakLine}
+        Movie:
+        ${breakLine}
+        ID: ${id}
+        Title: ${bold(blue(title))}
+        Release Date: ${release_date}
+        Runtime: ${runtime}
+        Vote Count: ${vote_count}
+        Overview: ${overview}
+        `)
+  );
+
+  arrayRender(genres, renderMessages.genre, renderMessages.noGenre);
+
+  arrayRender(
+    spoken_languages,
+    renderMessages.language,
+    `The movie: ${title} ${renderMessages.noLanguage}`
+  );
 }
