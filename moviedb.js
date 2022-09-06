@@ -32,29 +32,15 @@ program
   .option("-l, --local", "Read the data from the local file system")
   .action((commandOptions) => {
     const spinner = createSpinner(
-      "yellow",
-      "moon",
       "Fetching the popular person's data..."
     );
 
+    const path = `/3/person/popular?page=${commandOptions.page}`;
+
     setTimeout(() => {
-      spinner.color = "yellow";
-      spinner.text = "Loading rainbows";
-      spinner.succeed("Exit");
+      getPersons(path, commandOptions, spinner);
       spinner.stop();
     }, 2000);
-
-    const page = 1;
-    const path = `/3/person/popular?page=${page}&api_key=${process.env.API_KEY}`;
-
-    const createRequestOptions = {
-      hostname: "api.themoviedb.org",
-      port: 443,
-      path: path,
-      method: "GET",
-    };
-
-    getPersons(createRequestOptions, commandOptions, spinner);
   });
 
 program.parse(process.argv);

@@ -8,13 +8,9 @@ import ora from "ora";
  * @returns A function that returns an object.
  */
 export const createSpinner = (
-  spinnerColor,
-  spinnerType = "dots",
   spinnerMessage
 ) => {
   return ora({
-    color: spinnerColor,
-    spinner: spinnerType,
     text: spinnerMessage,
   }).start();
 };
