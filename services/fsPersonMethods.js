@@ -68,3 +68,59 @@ export const readPersonFile = (filename, spinner) => {
     });
   })
 }
+
+export const savePersonFile_id = (filename, data, spinner) => {
+  const BASENAME = path.resolve("files");
+  const FILE_PATH = path.join(BASENAME, filename);
+
+  fs.writeFile(
+    FILE_PATH,
+    JSON.stringify(data, null, 4),
+    "utf-8",
+    (readErr) => {
+      if (readErr) {
+        spinnerHandlerOnError(spinner, readErr.message);
+        notifier.notify({
+          title: "Error",
+          message: `${readErr.message}`,
+        });
+        return;
+      }
+      spinnerHandlerOnSuccess(
+        spinner,
+        "File was successfully stored in the local system."
+      );
+      notifier.notify({
+        title: "Succeess",
+        message: "File was successfully stored in the local system.",
+      });
+    }
+  );
+};
+
+
+export const readPersonFile_id = (filename, spinner) => {
+  const BASENAME = path.resolve("files");
+  const FILE_PATH = path.join(BASENAME, filename);
+  console.log(FILE_PATH)
+
+  fs.readFile(FILE_PATH, "utf-8",(readErr, data) => {
+    if (readErr) {
+      spinnerHandlerOnError(spinner, readErr.message);
+      notifier.notify({
+        title: "Error",
+        message: `${readErr.message}`,
+      });
+      return;
+    }
+    render(JSON.parse(data))
+    spinnerHandlerOnSuccess(
+      spinner,
+      "File was successfully stored in the local system."
+    );
+    notifier.notify({
+      title: "Succeess",
+      message: "File was successfully stored in the local system.",
+    });
+  })
+}

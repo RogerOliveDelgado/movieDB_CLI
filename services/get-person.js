@@ -6,15 +6,15 @@ import {
   spinnerHandlerOnSuccess,
   spinnerHandlerOnError,
 } from "../utils/spinnersHandler.js";
-import { render } from "./../render/renderPopularPersons.js";
+import { renderPersonDetails } from "../render/renderPersonDetails.js";
 import { getRequestOptions } from "./getRequestOptions.js";
 import { savePersonFile } from "./fsPersonMethods.js";
 
 //Env configuration
 dotenv.config();
 
-export function getPersons(path, commandOptions, spinner) {
-  const requestOptions = getRequestOptions(`popularPersons`, commandOptions.page);
+export function getPerson(path, commandOptions, spinner) {
+  const requestOptions = getRequestOptions('singlePerson', commandOptions.id);
   let responseData = "";
   const { popular, page, save, local } = commandOptions;
 
@@ -26,16 +26,17 @@ export function getPersons(path, commandOptions, spinner) {
     res.on("end", () => {
       // save local
       if (save) {
-        savePersonFile(
-          `/persons/PopularPersons/popularPersons-page${commandOptions.page}.json`,
+        savePersonFile_id(
+          `/persons/SinglePersons/SinglePerson-id=${page}.json`,
           JSON.parse(responseData), spinner
         );
       } else if (local) {
         console.log("Get info from file");
       } else {
         const popularPersonData = JSON.parse(responseData);
-        render(popularPersonData);
-        spinnerHandlerOnSuccess(spinner, "Popular Persons data loaded");
+        console.log(popularPersonData)
+        renderPersonDetails(popularPersonData);
+        // spinnerHandlerOnSuccess(spinner, "Person data loaded");
       }
     });
   });
