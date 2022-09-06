@@ -1,30 +1,47 @@
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
-const https = require('node:https');
+const https = require("node:https");
 const dotenv = require("dotenv");
+import {
+  spinnerHandlerOnSuccess,
+  spinnerHandlerOnError,
+} from "../utils/spinnersHandler.js";
+import { render } from "../render/renderPopularPersons.js";
+
 //Env configuration
 dotenv.config();
 
-const page  = 1
-const path = `/3/person/popular?page=${page}&api_key=${process.env.API_KEY}`
+export function getPersons(options, commandOptions, spinner) {
+  let responseData = "";
+  const { popular, page, save, local } = commandOptions;
 
-const options = {
-  hostname: 'api.themoviedb.org',
-  port: 443,
-  path: path,
-  method: 'GET',
-};
+  const req = https.request(options, (res) => {
+    console.log("statusCode:", res.statusCode);
+    // console.log('headers:', res.headers);
 
-const req = https.request(options, (res) => {
-  console.log('statusCode:', res.statusCode);
-  console.log('headers:', res.headers);
+    res.on("data", (chunk) => {
+      responseData += chunk;
+    });
 
-  res.on('data', (d) => {
-    process.stdout.write(d);
+    res.on("end", () => {
+      // save local
+      if (save) {
+        console.log("Save file");
+      } else if (local) {
+        console.log("Get info from file");
+      } else {
+        console.log("Print on the command promt");
+      }
+      const popularPersonData = JSON.parse(responseData);
+      render(popularPersonData);
+      spinnerHandlerOnSuccess(spinner, "Popular Persons data loaded");
+    });
   });
-});
 
-req.on('error', (e) => {
-  console.error(e);
-});
-req.end();
+  req.on("error", (err) => {
+    console.error(err);
+    spinnerHandlerOnError(spinner, err.message);
+  });
+
+  req.end();
+}
