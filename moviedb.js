@@ -1,9 +1,21 @@
 import { Command } from "commander";
 import dotenv from "dotenv";
-import { createSpinner } from "./utils/spinners/spinnersHandler.js";
-import { readMoviesFile, readPersonFile } from "./services/fsPersonMethods.js";
-import { createSpinner } from "./utils/spinnersHandler.js";
-import { readPersonFile } from "./services/fsPersonMethods.js";
+import {
+  createSpinner,
+  spinnerHandlerOnError,
+  spinnerHandlerOnSuccess,
+} from "./utils/spinners/spinnersHandler.js";
+import {
+  readMoviesFile,
+  readPersonFile,
+  saveRequestData,
+} from "./services/fsPersonMethods.js";
+import {
+  renderPersonsData,
+  renderPersonData,
+  renderMoviesData,
+  renderMovieData,
+} from "./utils/renders/renders.js";
 import { moviedbRequest } from "./services/moviedbRequest.js";
 
 const program = new Command();
@@ -88,27 +100,116 @@ program
       } else {
         getMovies(path, commandOptions, spinner);
       }
-    })
+    });
   });
-    
+
 program
   .command("get-person")
   .description("Make a network to fetch the data of a single person")
   .requiredOption("-i, --id <number>", "Fetch the person with ID")
-  .action((commandOptions) => {
+  .option("-s, --save", "Store the data in the local file system.")
+  .option("-l, --local", "Read the data from the local file system")
+  .action((options) => {
+    const { id, save, local } = options;
     const spinner = createSpinner(
-      `Fetching the person's data with id=${commandOptions.id} ...`
+      `Fetching the person's data with id=${id} ...`
     );
 
-    const path = `/3/person/${commandOptions.id}`;
+    setTimeout(async () => {
+      if (local) {
+        spinner.stop();
+        return;
+      }
+
+      try {
+        const response = await moviedbRequest("singlePerson", options);
+        if (save) {
+          try {
+            await saveRequestData(
+              "singlePerson",
+              `/person-${id}.json`,
+              response
+            );
+            spinnerHandlerOnSuccess(spinner, "Person data stored");
+          } catch (error) {
+            spinnerHandlerOnError(spinner, error.message);
+          }
+          spinner.stop();
+          return;
+        }
+        renderPersonData(reqResponse);
+        spinnerHandlerOnSuccess(spinner, "Person data loaded");
+      } catch (error) {
+        spinnerHandlerOnError(spinner, error.message);
+      }
+
+      spinner.stop();
+    }, 2000);
+  });
+
+program
+  .command("get-movie")
+  .description("Make a network request to fetch the data of a single movie")
+  .requiredOption("-i, --id <number>", "The id of the movie")
+  .option("-r, --reviews", "Fetch the reviews of the movie")
+  .option("-s, --save", "Store the data in the local file system.")
+  .option("-l, --local", "Read the data from the local file system")
+  .action((options) => {
+    const { id, reviews, save, local } = options;
+    const spinner = createSpinner(
+      `Fetching the movies's data with id=${id} ...`
+    );
 
     setTimeout(async () => {
-      if (commandOptions.local) {
-        readPersonFile_id(`Persons/SinglePersons/SinglePerson_id=${commandOptions.id}.json`, spinner)
+      if (local) {
+        spinner.stop();
+        return;
       }
-      const response = await moviedbRequest('singlePerson', commandOptions)
-      renderPersonDetails(response)
-      // getPerson(path, commandOptions, spinner);
+
+      if (reviews) {
+        try {
+          const response = await moviedbRequest("singleMovieReviews", options);
+          if (save) {
+            try {
+              await saveRequestData(
+                "singleMovieReviews",
+                `/movieReview-${id}.json`,
+                response
+              );
+              spinnerHandlerOnSuccess(spinner, "Movie reviews data stored");
+            } catch (error) {
+              spinnerHandlerOnError(spinner, error.message);
+            }
+            spinner.stop();
+            return;
+          }
+          //render reviews
+          spinnerHandlerOnSuccess(spinner, "Movie reviews data loaded");
+        } catch (error) {
+          spinnerHandlerOnError(spinner, error.message);
+        }
+        spinner.stop();
+        return;
+      }
+
+      try {
+        const response = await moviedbRequest("singleMovie", options);
+        if (save) {
+          try {
+            await saveRequestData("singleMovie", `/movie-${id}.json`, response);
+            spinnerHandlerOnSuccess(spinner, "Movie data stored");
+          } catch (error) {
+            spinnerHandlerOnError(spinner, error.message);
+          }
+          spinner.stop();
+          return;
+        }
+        renderMovieData(response);
+        spinnerHandlerOnSuccess(spinner, "Movie data loaded");
+      } catch (error) {
+        spinnerHandlerOnError(spinner, error.message);
+      }
+
       spinner.stop();
     }, 2000);
   });

@@ -9,7 +9,7 @@ const log = console.log;
 const renderMessages = {
   also_known_as: "Also known as:",
   noAlias: "doesn’t have any alternate names",
-  genre: "Genre:",
+  genre: "Genres:",
   noGenre: "The movie doesn’t have a declared genre",
   language: "Language:",
   noLanguage: "doesn’t have any declared languages",
@@ -34,7 +34,7 @@ export function renderPages(page, total_pages) {
  */
 export function arrayRender(arrayToRender, name, message) {
   if (arrayToRender.length > 0) {
-    log(white(`${name}`));
+    log(white(`${name}${breakLine}`));
     arrayToRender.map((item) => {
       log(`${white(item)}${breakLine}`);
     });
@@ -130,20 +130,19 @@ export function renderPersonData({
   also_known_as,
 }) {
   log(
-    white(`
-        ----------------------------------------
-        ${breakLine}
-        Person:
-        ${breakLine}
-        ID: ${id}
-        Name: ${bold(blue(name))}
-        Birthday: ${birthday} ${gray("|")} ${place_of_birth}
-        ${
-          known_for_department === "Acting" &&
-          `Department: ${magenta(known_for_department)}`
-        }
-        Biography: ${bold(biography)}
-        `)
+    white(`----------------------------------------
+${breakLine}
+Person:
+${breakLine}
+ID: ${id}
+Name: ${bold(blue(name))}
+Birthday: ${birthday} ${gray("|")} ${place_of_birth}
+${
+  known_for_department === "Acting" &&
+  `Department: ${magenta(known_for_department)}`
+}
+Biography: ${bold(biography)}
+  `)
   );
 
   arrayRender(
@@ -167,25 +166,41 @@ export function renderMovieData({
   spoken_languages,
 }) {
   log(
-    white(`
-        ----------------------------------------
-        ${breakLine}
-        Movie:
-        ${breakLine}
-        ID: ${id}
-        Title: ${bold(blue(title))}
-        Release Date: ${release_date}
-        Runtime: ${runtime}
-        Vote Count: ${vote_count}
-        Overview: ${overview}
-        `)
+    white(`----------------------------------------
+${breakLine}
+Movie:
+${breakLine}
+ID: ${id}
+Title: ${bold(blue(title))}
+Release Date: ${release_date}
+Runtime: ${runtime}
+Vote Count: ${vote_count}
+Overview: ${overview}
+`)
   );
 
-  arrayRender(genres, renderMessages.genre, renderMessages.noGenre);
+  if (genres.length > 0) {
+    log(white(`${renderMessages.genre}${breakLine}`));
+    genres.map((item) => {
+      log(`${white(item.name)}${breakLine}`);
+    });
+    return;
+  } else {
+    log(`${yellow(renderMessages.noGenre)}${breakLine}`);
+  }
 
-  arrayRender(
-    spoken_languages,
-    renderMessages.language,
-    `The movie: ${title} ${renderMessages.noLanguage}`
-  );
+  if (spoken_languages.length > 0) {
+    console.log('entro');
+    log(white(`${renderMessages.spoken_languages}${breakLine}`));
+    spoken_languages.map((item) => {
+      log(`${white(item.name)}${breakLine}`);
+    });
+    return;
+  } else {
+    log(
+      `${yellow(
+        `The movie: ${title} ${renderMessages.noLanguage}`
+      )}${breakLine}`
+    );
+  }
 }
