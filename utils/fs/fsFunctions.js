@@ -42,6 +42,13 @@ export const saveRequestData = (command, filename, data) => {
   });
 };
 
+/**
+ * It reads a file from a folder, parses the data, and returns a promise
+ * @param command - the command that the user is requesting
+ * @param filename - the name of the file to be read
+ * @param data - {
+ * @returns A promise that resolves to the data read from the file.
+ */
 export const readRequestData = (command, filename, data) => {
   const FILE_PATH = path.join(BASENAME, FOLDER_PATH[command], filename);
 
