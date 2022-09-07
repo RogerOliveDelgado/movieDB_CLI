@@ -60,8 +60,7 @@ export function renderPersonsData({ page, results, total_pages }) {
       Title: ${bold(blue(name))}
       ${
         known_for_department === "Acting" &&
-        `Department: ${magenta(known_for_department)}`
-      }`)
+        `Department: ${magenta(known_for_department)}${breakLine}`}`)
     );
 
     //Check if character appears in any movie
@@ -80,7 +79,7 @@ export function renderPersonsData({ page, results, total_pages }) {
           log(
             white(
               `
-              ${tab}Movie: 
+              ${tab}Movie:
               ${tab}ID: ${id}
               ${tab}Release Date: ${release_date}
               ${tab}Title: ${title}
@@ -90,7 +89,7 @@ export function renderPersonsData({ page, results, total_pages }) {
         }
       });
     } else {
-      log(`${yellow(`${name} doesn't appear in any movie`)}`);
+      log(`${tab}${yellow(`${name} doesn't appear in any movie`)}`);
     }
   });
 
