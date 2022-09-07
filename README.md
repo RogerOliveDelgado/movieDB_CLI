@@ -211,6 +211,6 @@ npm index.js --help
                 Npm Package: node-notifier
                 Method: notifier.notify()
                 
-## COLABORATORS
+## COLLABORATORS
 <a href="https://github.com/alicembranos">Alicia Cembranos Bruzon</a><br>
 <a href="https://github.com/RogerOliveDelgado">Roger Olivé Delgado</a><br>
