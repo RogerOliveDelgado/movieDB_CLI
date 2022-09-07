@@ -11,16 +11,15 @@ dotenv.config();
 /**
  * It resolves to the response data from the API
  * @param command - CLI executed command
- * @param commandOptions - CLI command options
+ * @param options - CLI command options
  * @returns A promise.
  */
-export async function moviedbRequest(command, commandOptions) {
-  const requestOptions = getRequestOptions(command, commandOptions.id);
+export async function moviedbRequest(command, identifier) {
+  const requestOptions = getRequestOptions(command, identifier);
   let data = "";
 
   return new Promise((resolve, reject) => {
     const req = https.request(requestOptions, (res) => {
-      console.log(requestOptions.path);
       res.on("data", (chunk) => {
         data += chunk;
       });
@@ -36,7 +35,6 @@ export async function moviedbRequest(command, commandOptions) {
 
     req.on("error", (err) => {
       reject(new Error(err.message));
-      console.log(err);
     });
 
     req.end();

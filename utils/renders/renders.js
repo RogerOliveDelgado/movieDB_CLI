@@ -21,7 +21,8 @@ const renderMessages = {
  */
 export function renderPages(page, total_pages) {
   log(
-    white(`----------------------------------------
+    white(`
+          ----------------------------------------
           ${breakLine}
           Page: ${page} of ${total_pages}
           ${breakLine}`)
@@ -51,16 +52,16 @@ export function renderPersonsData({ page, results, total_pages }) {
   results.map(({ id, name, known_for_department, known_for }) => {
     log(
       white(`
-              ----------------------------------------
-              ${breakLine}
-              Person:
-              ${breakLine}
-              ID: ${id}
-              Title: ${bold(blue(name))}
-              ${
-                known_for_department === "Acting" &&
-                `Department: ${magenta(known_for_department)}`
-              }`)
+      ----------------------------------------
+      ${breakLine}
+      Person:
+      ${breakLine}
+      ID: ${id}
+      Title: ${bold(blue(name))}
+      ${
+        known_for_department === "Acting" &&
+        `Department: ${magenta(known_for_department)}`
+      }`)
     );
 
     //Check if character appears in any movie
@@ -68,19 +69,23 @@ export function renderPersonsData({ page, results, total_pages }) {
       return movie.title !== undefined;
     });
 
-    //render if person appears in movies
+    //Render if person appears in movies
     if (appearInMovie) {
+      log(
+        white(`
+      Appearing in movies:`)
+      );
       known_for.map(({ id, title, release_date }) => {
-        log(white(`Appearing in movies:${breakLine}`));
         if (title) {
           log(
-            white(`
-                  ${tab}Movie: 
-                  ${tab}ID: ${id}
-                  ${tab}Release Date: ${release_date}
-                  ${tab}Title: ${title}
-                  ${breakLine}
-                `)
+            white(
+              `
+              ${tab}Movie: 
+              ${tab}ID: ${id}
+              ${tab}Release Date: ${release_date}
+              ${tab}Title: ${title}
+            `
+            )
           );
         }
       });
@@ -130,7 +135,9 @@ export function renderPersonData({
   also_known_as,
 }) {
   log(
-    white(`----------------------------------------
+    white(`
+${breakLine}
+----------------------------------------
 ${breakLine}
 Person:
 ${breakLine}
@@ -141,7 +148,7 @@ ${
   known_for_department === "Acting" &&
   `Department: ${magenta(known_for_department)}`
 }
-Biography: ${bold(biography)}
+Biography: ${blue(bold(biography))}
   `)
   );
 
@@ -166,7 +173,9 @@ export function renderMovieData({
   spoken_languages,
 }) {
   log(
-    white(`----------------------------------------
+    white(`
+    ${breakLine}
+----------------------------------------
 ${breakLine}
 Movie:
 ${breakLine}
@@ -190,10 +199,9 @@ Overview: ${overview}
   }
 
   if (spoken_languages.length > 0) {
-    console.log('entro');
     log(white(`${renderMessages.spoken_languages}${breakLine}`));
-    spoken_languages.map((item) => {
-      log(`${white(item.name)}${breakLine}`);
+    spoken_languages.map((lang) => {
+      log(`${white(lang.name)}${breakLine}`);
     });
     return;
   } else {
