@@ -1,22 +1,53 @@
-# movieDB_CLI
+# MOVIES-DB-CLI
 
-# Requirements
+## DESCRIPTION
+This project consist on a CLI, that allows the user to request an api to get most popular movies, the now playing movies, movie details, popular persons, person detail and lastest person who was uploaded.
 
-    PERSONS
-        - POPULAR PERSONS : Network request to fetch the most popular person
-        - PERSON DETAILS : Network request to fetch the data of a single person
+# INSTALLATION
+npm install
 
-    MOVIES
-        - MOVIES: Network request to fetch movies
-        - SINGLE MOVIE DETAILS: Network request to fetch data of a single movie
+## CONFIGURATION
+npm install commander<br>
+npm install ora<br>
+npm install --save node-notifier
 
-    FLAGS
-        --save
-        --local
+## APIKEY
+You muest use your API KEY from api.themoviedb.org and put it on the .env file(see .env.example)
 
-# Commands
+## COMMANDS
+Tap the next command on your terminal to see the availables command on the CLI
 
-    --> POPULAR PERSONS
+npm index.js --help
+
+## RESOURCES
+
+● chalk: <a>https://www.npmjs.com/package/chalk</a><br>
+● commander: <a>https://www.npmjs.com/package/commander</a><br>
+● dotenv: <a>https://www.npmjs.com/package/dotenv</a><br>
+● node-notifier: <a>https://www.npmjs.com/package/node-notifier</a><br>
+● ora: <a>https://www.npmjs.com/package/ora/v/0.3.0</a><br>
+
+## COLABORATORS
+<a href="https://github.com/alicembranos">Alicia Cembranos Bruzon</a><br>
+<a href="https://github.com/RogerOliveDelgado">Roger Olivé Delgado</a><br>
+
+# FUNCTIONALITIES
+
+        PERSONS
+            - POPULAR PERSONS : Network request to fetch the most popular person
+            - PERSON DETAILS : Network request to fetch the data of a single person
+
+        MOVIES
+            - MOVIES: Network request to fetch movies
+            - SINGLE MOVIE DETAILS: Network request to fetch data of a single movie
+
+        FLAGS
+            --save
+            --local
+
+# COMMANDS
+
+    --> POPULAR PERSONS (get-persons)
 
         - help
         - options
@@ -57,7 +88,7 @@
             Functionality: Stop spinner
             Message: Popular persons data loaded
 
-    --> PERSON DETAILS
+    --> PERSON DETAILS (get-person)
 
         -help
         -options
@@ -80,7 +111,7 @@
         --> Success
             Message: Person data loaded
 
-    --> MOVIES
+    --> MOVIES (get-movies)
 
         -help
         -options
@@ -122,7 +153,7 @@
                 - Popular movies data loaded
                 - Movies playing now data loaded
 
-    --> SINGLE MOVIE DETAILS
+    --> SINGLE MOVIE DETAILS (get-person)
 
         -help
         -options
