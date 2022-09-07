@@ -27,10 +27,6 @@ npm index.js --help
 ● node-notifier: <a>https://www.npmjs.com/package/node-notifier</a><br>
 ● ora: <a>https://www.npmjs.com/package/ora/v/0.3.0</a><br>
 
-## COLABORATORS
-<a href="https://github.com/alicembranos">Alicia Cembranos Bruzon</a><br>
-<a href="https://github.com/RogerOliveDelgado">Roger Olivé Delgado</a><br>
-
 # FUNCTIONALITIES
 
         PERSONS
@@ -214,3 +210,7 @@ npm index.js --help
             - Notifications:
                 Npm Package: node-notifier
                 Method: notifier.notify()
+                
+## COLABORATORS
+<a href="https://github.com/alicembranos">Alicia Cembranos Bruzon</a><br>
+<a href="https://github.com/RogerOliveDelgado">Roger Olivé Delgado</a><br>
