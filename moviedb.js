@@ -1,5 +1,4 @@
 import { Command } from "commander";
-import dotenv from "dotenv";
 import {
   createSpinner,
   spinnerHandlerOnError,
@@ -15,8 +14,6 @@ import { moviedbRequest } from "./services/moviedbRequest.js";
 import { saveRequestData, readRequestData } from "./utils/fs/fsFunctions.js";
 
 const program = new Command();
-//Env configuration
-dotenv.config();
 
 // Settings
 program
@@ -78,6 +75,60 @@ program
         }
         renderPersonsData(response);
         spinnerHandlerOnSuccess(spinner, "Popular persons loaded");
+      } catch (error) {
+        spinnerHandlerOnError(spinner, error.message);
+      }
+
+      spinner.stop();
+    }, 2000);
+  });
+
+//Get single person command
+program
+  .command("get-person")
+  .description("Make a network to fetch the data of a single person")
+  .requiredOption("-i, --id <number>", "Fetch the person with ID")
+  .option("-s, --save", "Store the data in the local file system.")
+  .option("-l, --local", "Read the data from the local file system")
+  .action((options) => {
+    const { id, save, local } = options;
+    const spinner = createSpinner(
+      `Fetching the person's data with id=${id} ...`
+    );
+
+    setTimeout(async () => {
+      if (local) {
+        try {
+          const readData = await readRequestData(
+            "singlePerson",
+            `/person-id${id}.json`
+          );
+          renderPersonData(readData);
+        } catch (error) {
+          spinnerHandlerOnError(spinner, error.message);
+        }
+        spinner.stop();
+        return;
+      }
+
+      try {
+        const response = await moviedbRequest("singlePerson", id);
+        if (save) {
+          try {
+            await saveRequestData(
+              "singlePerson",
+              `/person-id${id}.json`,
+              response
+            );
+            spinnerHandlerOnSuccess(spinner, "Person data stored");
+          } catch (error) {
+            spinnerHandlerOnError(spinner, error.message);
+          }
+          spinner.stop();
+          return;
+        }
+        renderPersonData(response);
+        spinnerHandlerOnSuccess(spinner, "Person data loaded");
       } catch (error) {
         spinnerHandlerOnError(spinner, error.message);
       }
@@ -175,60 +226,6 @@ program
       } catch (error) {
         spinnerHandlerOnError(spinner, error.message);
       }
-      spinner.stop();
-    }, 2000);
-  });
-
-//Get single person command
-program
-  .command("get-person")
-  .description("Make a network to fetch the data of a single person")
-  .requiredOption("-i, --id <number>", "Fetch the person with ID")
-  .option("-s, --save", "Store the data in the local file system.")
-  .option("-l, --local", "Read the data from the local file system")
-  .action((options) => {
-    const { id, save, local } = options;
-    const spinner = createSpinner(
-      `Fetching the person's data with id=${id} ...`
-    );
-
-    setTimeout(async () => {
-      if (local) {
-        try {
-          const readData = await readRequestData(
-            "singlePerson",
-            `/person-id${id}.json`
-          );
-          renderPersonData(readData);
-        } catch (error) {
-          spinnerHandlerOnError(spinner, error.message);
-        }
-        spinner.stop();
-        return;
-      }
-
-      try {
-        const response = await moviedbRequest("singlePerson", id);
-        if (save) {
-          try {
-            await saveRequestData(
-              "singlePerson",
-              `/person-id${id}.json`,
-              response
-            );
-            spinnerHandlerOnSuccess(spinner, "Person data stored");
-          } catch (error) {
-            spinnerHandlerOnError(spinner, error.message);
-          }
-          spinner.stop();
-          return;
-        }
-        renderPersonData(response);
-        spinnerHandlerOnSuccess(spinner, "Person data loaded");
-      } catch (error) {
-        spinnerHandlerOnError(spinner, error.message);
-      }
-
       spinner.stop();
     }, 2000);
   });

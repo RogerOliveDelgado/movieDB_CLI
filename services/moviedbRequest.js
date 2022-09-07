@@ -1,12 +1,8 @@
 import { createRequire } from "module";
 import { getRequestOptions } from "./getRequestOptions.js";
-import dotenv from "dotenv";
 
 const require = createRequire(import.meta.url);
 const https = require("node:https");
-
-//Env configuration
-dotenv.config();
 
 /**
  * It resolves to the response data from the API
